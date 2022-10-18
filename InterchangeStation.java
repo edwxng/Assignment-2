@@ -31,5 +31,14 @@ public class InterchangeStation extends Station{
 		//next = stn;
 	}
 	
+	public Station getPrev(char lineLetter){
+		int index = (int) lineLetter;
+		return prevs[index];
+	}
+	
+	public Station setPrev(Station stn, char lineLetter){
+		int index = (int) lineLetter;
+		prevs[index] = stn;
+	}
 	
 }
