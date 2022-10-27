@@ -35,55 +35,67 @@ public class InterchangeStation extends Station{
 	}
 	//overridden getPrev
 	public Station getPrev(char lineLetter) {
-		int index = (int)lineLetter;
-		return prevs[index];
+		int index = (int)lineLetter - 65;
+		if(index >= prevs.length){
+	        prevs = expandStations(prevs, index);
+	        return null;
+		 } else {
+			 return prevs[index];
+		 }
 		
 	}
 	//overridden getNext
 	public Station getNext(char lineLetter) {
-		int index = (int)lineLetter;
-		return nexts[index];
+		int index = (int)lineLetter - 65;
+		if(index >= nexts.length){
+	        nexts = expandStations(nexts, index);
+	        return null;
+		 } else {
+			 return nexts[index];
+		 }
 	}
+	
 	//overridden setPrev
-	public void setPrev(Station stn, char lineLetter) {
-		int index = (int)lineLetter - 65;
-		try {
-			
-			prevs[index] = stn;
-		} catch (ArrayIndexOutOfBoundsException e) {
-			expandNexts(index);
-		}
-	}
-	//overridden setNext
-	public void setNext(Station stn, char lineLetter) {
-		int index = (int)lineLetter - 65;
-		try {
-			
-			nexts[index] = stn;
-		} catch (ArrayIndexOutOfBoundsException e) {
-			expandPrevs(index);
-		}
-		
-	}
+    public void setPrev(Station stn, char lineLetter) {
+        int index = (int)lineLetter - 65;
+        if(index >= prevs.length){
+        	prevs = expandStations(prevs, index);
+            prevs[index] = stn;
+            
+        }else{
+            prevs[index] = stn;
+            
+        }
+    }
+    //overridden setNext
+    public void setNext(Station stn, char lineLetter) {
+        int index = (int)lineLetter - 65;
+            if(index >= nexts.length){
+                nexts = expandStations(nexts, index);
+                nexts[index] = stn;
+                
+            }else{
+                nexts[index] = stn;
+                
+            }
+    }
 	
-	// the following two helper methods are used to expand the capacity of the prevs and nexts arrays
-	private void expandPrevs(int index) {
-		   Station[] temp = new Station[index + 1];
-		   
-		   for (int i = 0; i < prevs.length; i++){
-		      temp[i] = prevs[i];
-		   }
-		   prevs = temp;
-		}
-	
-	private void expandNexts(int index) {
-		   Station[] temp = new Station[index + 1];
-		   
-		   for (int i = 0; i < nexts.length; i++){
-		      temp[i] = nexts[i];
-		   }
-		   nexts = temp;
-		}
+    // the following helper method is used to expand the capacity of the prevs and nexts arrays
+
+    private Station[] expandStations(Station[] theArray, int toIndex) {
+        Station[] temp = new Station[toIndex + 1];
+        
+        
+        for (int i = 0; i < theArray.length; i++){
+            temp[i] = theArray[i];
+        }
+
+        for(int i = theArray.length; i < temp.length; i++){
+            temp[i] = null;
+         
+        }
+        return temp;
+    }
 	
 	public Station[] getPrevArray() {
 		return prevs;
@@ -94,8 +106,51 @@ public class InterchangeStation extends Station{
 	}
 	
 	public String getPrevString() {
-		
+		String s = "";
+		for(int i = 0; i < prevs.length; i++) {
+			if(prevs[i] != null) {
+				s += prevs[i].getStnNo() + "  ";
+			} else {
+				s += "__  ";
+			}
+		}
+		return s;
 	}
 	
+	public String getNextString() {
+		String s = "";
+		for(int i = 0; i < nexts.length; i++) {
+			if(nexts[i] != null) {
+				s += nexts[i].getStnNo() + "  ";
+			} else {
+				s += "__  ";
+			}
+		}
+		return s;
+	}
+	
+	public String toString() {
+		String s = "Stn: " + getStnNo() + "(" + getName() + ") on Lines: ";
+		for(int i = 0; i < prevs.length; i++) {
+			
+		}
+
+		
+		return s;
+	} 
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
